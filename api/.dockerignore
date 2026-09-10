@@ -1,0 +1,6 @@
+__pycache__
+*.pyc
+.venv
+.git
+*.csv
+train_model.py

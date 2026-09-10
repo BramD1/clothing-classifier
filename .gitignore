@@ -78,6 +78,11 @@ target/
 # Jupyter Notebook
 .ipynb_checkpoints
 notebooks/checkpoints/
+notebooks/test_model.ipynb
+
+#api development
+api/__pycache__/
+api/best.pt
 
 # IPython
 profile_default/

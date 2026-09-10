@@ -18,6 +18,10 @@ app = FastAPI(title="Clothing Classifier API")
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
+# --- Accepted upload types ---
+ALLOWED_CONTENT_TYPES = {"image/jpeg", "image/png", "image/webp"}  # declared type (client-provided)
+ALLOWED_FORMATS = {"JPEG", "PNG", "WEBP"}                          # what PIL actually detects in the bytes
+
 # --- (2) Model loader: runs ONCE at import/startup ---
 CKPT_PATH = Path(__file__).parent / "best.pt"   # resolves next to this file, no matter where uvicorn starts
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -50,11 +54,25 @@ def health():
 @app.post("/predict", response_model=Prediction)
 @limiter.limit("10/minute")
 async def predict_endpoint(request: Request, file: UploadFile = File(...)):
-    if not (file.content_type or "").startswith("image/"):
-        raise HTTPException(status_code=400, detail="File must be an image.")
+    # Layer 1: cheap early reject on the declared content type (can be spoofed)
+    if file.content_type not in ALLOWED_CONTENT_TYPES:
+        raise HTTPException(
+            status_code=415,  # 415 Unsupported Media Type
+            detail=f"Unsupported type '{file.content_type}'. "
+                   f"Allowed: {', '.join(sorted(ALLOWED_CONTENT_TYPES))}.",
+        )
+
+    # Layer 2: the real guarantee — the bytes must actually decode as an allowed image
     try:
-        img = Image.open(io.BytesIO(await file.read())).convert("RGB")
+        img = Image.open(io.BytesIO(await file.read()))
+        if img.format not in ALLOWED_FORMATS:
+            raise HTTPException(
+                status_code=415,
+                detail=f"File is a {img.format} image; allowed: {', '.join(sorted(ALLOWED_FORMATS))}.",
+            )
+        img = img.convert("RGB")
     except (UnidentifiedImageError, OSError):
         raise HTTPException(status_code=400, detail="Could not read image file.")
+
     # offload CPU-bound inference so it doesn't block the event loop
     return await asyncio.to_thread(predict, img)

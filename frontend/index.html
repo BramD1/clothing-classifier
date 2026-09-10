@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clothing Classifier</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>Clothing Classifier</h1>
+    <p class="subtitle">Upload a photo of a clothing item and the model will predict its category.</p>
+    <p class="subtitle">Source Repository: <a href="https://github.com/BramD1/clothing-classifier" target="_blank">Clothing Classifier</a>.</p>
+
+    <!-- API endpoint (edit for local vs. deployed) -->
+    <label class="api-row">
+      <span>API URL</span>
+      <input id="apiUrl" type="text" value="https://clothing-api-126201512243.asia-southeast2.run.app/predict" spellcheck="false" />
+    </label>
+
+    <!-- Drop zone / file picker -->
+    <div id="dropZone" class="drop-zone" tabindex="0" role="button" aria-label="Choose or drop an image">
+      <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp" hidden />
+      <div id="dropPrompt" class="drop-prompt">
+        <span class="drop-icon">🖼️</span>
+        <span>Click to choose an image<br />or drag &amp; drop it here</span>
+        <span class="hint">JPEG, PNG or WEBP</span>
+      </div>
+      <img id="preview" class="preview" alt="Selected image preview" hidden />
+    </div>
+
+    <button id="predictBtn" class="btn" disabled>Classify</button>
+
+    <!-- Status / errors -->
+    <p id="status" class="status" hidden></p>
+
+    <!-- Result -->
+    <div id="result" class="result" hidden>
+      <div class="result-label" id="resultLabel"></div>
+      <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+      <div class="result-confidence" id="resultConfidence"></div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

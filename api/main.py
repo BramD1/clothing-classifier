@@ -6,6 +6,7 @@ import timm
 import torch
 from PIL import Image, UnidentifiedImageError
 from fastapi import FastAPI, UploadFile, File, Request, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from timm.data import resolve_data_config, create_transform
 from slowapi import Limiter, _rate_limit_exceeded_handler
@@ -17,6 +18,14 @@ limiter = Limiter(key_func=get_remote_address)
 app = FastAPI(title="Clothing Classifier API")
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+# --- CORS: let the browser frontend call this API from another origin ---
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],          # demo-friendly; lock to your frontend's URL in production
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"],
+)
 
 # --- Accepted upload types ---
 ALLOWED_CONTENT_TYPES = {"image/jpeg", "image/png", "image/webp"}  # declared type (client-provided)

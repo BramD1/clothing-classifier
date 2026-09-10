@@ -1,0 +1,3 @@
+[build]
+  publish = "frontend"
+  # no build command — it's static HTML/CSS/JS

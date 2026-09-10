@@ -1,0 +1,12 @@
+# api/.gcloudignore
+# Controls what gcloud UPLOADS to Cloud Build.
+# best.pt is deliberately NOT listed here — the image build needs it.
+
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.git/
+.gitignore
+*.csv
+train_model.py

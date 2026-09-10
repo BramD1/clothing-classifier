@@ -1,1 +1,1 @@
-# clothing-classifier
+# Clothing Classifier

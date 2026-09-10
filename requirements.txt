@@ -1,0 +1,22 @@
+# --- PyTorch (CPU build for local dev) ---
+# For CUDA instead, swap the URL below to:
+#   https://download.pytorch.org/whl/cu124
+# and confirm the cuXXX tag on pytorch.org's install selector.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch
+torchvision
+
+# --- CV ecosystem ---
+timm==1.0.25
+ipykernel
+opencv-python
+albumentations
+# ultralytics        # uncomment if you need YOLO detection/segmentation
+
+# --- data / training utils ---
+numpy
+pandas
+pillow
+scikit-learn
+matplotlib
+tqdm

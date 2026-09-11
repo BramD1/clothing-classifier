@@ -6,18 +6,17 @@
 This is a Deep Learning project using a computer-vision classification model where I predict the category of a clothing item from a single photo. The model recognizes **15 types of clothing** (e.g. Blazer, Jeans, Hoodie, Kemeja, Rok). Instead of training from scratch, it uses **transfer learning** — starting from a network already trained on millions of images and adapting it to clothing. This can be useful for e-commerce catalog tagging, inventory sorting, or any app that needs to auto-label garment photos.
 
 ## 🚀 Deployment Link:
-Frontend (Netlify): https://<your-site>.netlify.app/
-API (GCP Cloud Run): https://clothing-api-126201512243.asia-southeast2.run.app
+https://clothing-classifier-bram.netlify.app/
 
 ## 📂 Dataset
-Source: <add dataset source link>
+Source: https://www.kaggle.com/datasets/ryanbadai/clothes-dataset/data
 
 Size: 7,500 images (15 classes × 500 each)
 
 Description: A balanced clothing image dataset with one folder per class. All 15 categories have exactly 500 images, so no over/undersampling was needed.
 
 ## 🔧 Technologies Used
-Programming Language: Python
+Programming Language: Python, JavaScript
 
 Libraries: PyTorch, torchvision, timm, Pillow, NumPy, pandas, scikit-learn, Matplotlib, FastAPI, Uvicorn, Pydantic, slowapi
 
